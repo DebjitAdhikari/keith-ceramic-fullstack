@@ -32,21 +32,34 @@ function PrideInspiration() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {getmanagement?.map((item, index) => (
           <div
-            key={index}
-            className="relative group bg-white rounded-lg overflow-hidden shadow-lg"
-          >
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-64 md:h-96 object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end p-4">
-              <div className="text-white">
-                <h2 className="text-lg sm:text-2xl font-bold">{item.name}</h2>
-                <p className="text-sm sm:text-md font-light">{item.position}</p>
-              </div>
+          key={index}
+          className="relative group rounded-lg overflow-hidden shadow-lg"
+        >
+          {/* Blurred Background using the same image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center filter blur-2xl brightness-50"
+            style={{ backgroundImage: `url(${item.image})` }}
+          ></div>
+        
+          {/* Main Image */}
+          <img
+            src={item.image}
+            alt={item.name}
+            className="relative w-full h-64 md:h-96 object-contain transition-transform duration-500 group-hover:scale-110"
+          />
+        
+          {/* Gradient Overlay for better contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-slate/90 to-transparent"></div>
+        
+          {/* Text Content */}
+          <div className="absolute inset-0 flex items-end p-4">
+            <div className="text-white drop-shadow-lg">
+              <h2 className="text-lg sm:text-2xl font-bold">{item.name}</h2>
+              <p className="text-sm sm:text-md font-light">{item.position}</p>
             </div>
           </div>
+        </div>
+        
         ))}
       </div>
 

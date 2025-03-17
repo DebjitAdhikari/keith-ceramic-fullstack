@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import FetchQuality from "../services/Quality/FetchQuality";
+import { Helmet } from "react-helmet-async";
 
 function Quality() {
   const [QualityData, setQualityData] = useState([]);
@@ -27,8 +28,13 @@ function Quality() {
   }, []);
   return (
     <div className="w-full min-h-screen pt-[120px] bg-gray-100 sm:pt-[150px] flex flex-col items-center py-10">
+      <Helmet>
+      <title>Quality Assurance | Keith Ceramic</title>
+      <meta name="description" content="Learn about our commitment to quality assurance, precision manufacturing, and industry standards in ceramic and metal castings." />
+      <meta name="keywords" content="Quality Assurance, Manufacturing Standards, Precision Casting, High-Quality Products, Keith Ceramic" />
+    </Helmet>
       <h1 className=" text-xl self-start ml-4 sm:ml-16 md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10">
-        QUALITY
+        Quality
       </h1>
 
       {/* Physical Testing Equipment Section */}
@@ -47,11 +53,11 @@ function Quality() {
               <img
                 src={item.image || "./assets/images/default.jpg"} // Default image if none is provided
                 alt={item.name || "Equipment Image"}
-                className="w-full h-60 object-contain"
+                className="w-full h-60 object-cover"
               />
               <div className="absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <p className="text-white text-center px-4">
-                  {item.description || "Equipment Name"}
+                  {item.name || "Equipment Name"}
                 </p>
               </div>
             </div>
@@ -75,11 +81,11 @@ function Quality() {
               <img
                 src={item.image || "./assets/images/default.jpg"} // Default image if none is provided
                 alt={item.name || "Equipment Image"}
-                className="w-full h-60 object-contain"
+                className="w-full h-60 object-cover"
               />
               <div className="absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <p className="text-white text-center px-4">
-                  {item.description || "Equipment Name"} 
+                  {item.name || "Equipment Name"} 
                 </p>
               </div>
             </div>
@@ -106,7 +112,7 @@ function Quality() {
               />
               <div className="absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <p className="text-white text-center px-4">
-                  {item.description || "Equipment Name"}
+                  {item.name || "Equipment Name"}
                 </p>
               </div>
             </div>

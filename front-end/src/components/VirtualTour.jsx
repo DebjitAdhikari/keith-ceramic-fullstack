@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Gettourvideo from '../services/Homepage/GetTourVideo';
 
 const VirtualTour = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-
+const [tourVideo,setTourVideo] = useState(null)
   const handleVideoClick = (e) => {
     const video = e.target;
     if (isPlaying) {
@@ -13,7 +14,13 @@ const VirtualTour = () => {
       setIsPlaying(true);
     }
   };
-
+ async function fetchTourVideo() {
+  const data = await Gettourvideo()
+  setTourVideo(data.video)
+ }
+ useEffect(()=>{
+  fetchTourVideo()
+ },[])
   return (
     <div className="min-h-[80vh] w-full bg-gray-100 py-16 px-4 flex flex-col items-center justify-center">
         <h1 className="self-start md:ml-14 text-xl md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10">Our Virtual tour</h1>
@@ -31,7 +38,7 @@ const VirtualTour = () => {
             className="w-full h-auto rounded-lg cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-105"
             onClick={handleVideoClick}
             controls
-            src="./assets/videos/random.mp4" // Replace with your actual video path
+            src={tourVideo} // Replace with your actual video path
             alt="Virtual Tour Video"
           />
           {/* <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 hover:bg-opacity-50 transition-opacity duration-300">

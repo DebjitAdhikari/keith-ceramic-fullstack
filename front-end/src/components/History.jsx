@@ -35,16 +35,24 @@ function History() {
             } sm:flex-row flex-col items-start`}
           >
             {/* Timeline Connector */}
-            <div className="absolute  justify-center items-center top-0 left-1/2 transform -translate-x-1/2 bg-[#FD5D14] h-4 w-4 rounded-full z-10 sm:block hidden "></div>
+            <div className="absolute justify-center items-center top-0 left-1/2 transform -translate-x-1/2 bg-[#FD5D14] h-4 w-4 rounded-full z-10 sm:block hidden"></div>
 
             {/* Timeline Content */}
             <div
-              className={`bg-[#02245B] text-white px-4 py-4 rounded-lg shadow-md sm:w-[40%] w-full ${
+              className={`relative bg-cover bg-center text-white px-4 py-4 rounded-lg shadow-md sm:w-[40%] w-full ${
                 index % 2 === 0 ? "sm:mr-4 sm:text-left" : "sm:ml-4 sm:text-right"
               }`}
+              style={{
+                backgroundImage: "url('assets/images/mission.jpg')",
+              }}
             >
-              <time className="block text-lg text-[#FD5D14] font-semibold">{item.date.split("-")[0]}</time>
-              <p className="mt-1 text-sm">{item.description}</p>
+              {/* Overlay for better text visibility */}
+              <div className="absolute inset-0 bg-black bg-opacity-60 rounded-lg"></div>
+
+              <div className="relative z-10">
+                <time className="block text-lg text-[#FD5D14] font-semibold">{item.date.split("-")[0]}</time>
+                <p className="mt-1 text-sm">{item.description}</p>
+              </div>
             </div>
           </li>
         ))}

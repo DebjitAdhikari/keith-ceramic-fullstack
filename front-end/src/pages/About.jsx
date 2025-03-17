@@ -7,6 +7,7 @@ import TeamManagement from "../components/TeamManagement"
 import WhyUs from "../components/WhyUs"
 
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async"
 
 function About() {
     const [loading, setLoading] = useState(true);
@@ -26,9 +27,23 @@ function About() {
     hidden: { opacity: 0, x: 100 },
     visible: { opacity: 1, x: 0, transition: { duration: 1 } },
   };
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
     return (
         
             <section className="pt-[150px] bg-gray-100 px-4 md:px-8 ">
+              <Helmet>
+      <title>Keith Ceramic - Premium Quality Ceramic Products</title>
+      <meta
+        name="description"
+        content="Discover Keith Ceramic, a leader in high-quality ceramic manufacturing. We specialize in durable and innovative ceramic products for various applications."
+      />
+      <meta
+        name="keywords"
+        content="Keith Ceramic, Ceramic Products, Premium Ceramics, High-Quality Ceramic Manufacturing, Durable Ceramics, Ceramic Innovation, Industrial Ceramics"
+      />
+    </Helmet>
         {/* heading */}
         <div>
             <h1 className="text-3xl font-bold text-[#02245B] mb-4">About Us</h1>

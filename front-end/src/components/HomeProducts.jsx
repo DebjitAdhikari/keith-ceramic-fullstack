@@ -3,21 +3,41 @@ import { Link } from "react-router-dom";
 import FetchProducts from "../services/ProductPage/FetchProducts";
 
 function HomeProducts() {
-  const [allproducts, setallproducts] = useState([]);
+  const [allproducts, setAllProducts] = useState([]);
 
-  async function fetchProduct() {
-    try {
-      const get = await FetchProducts();
-      console.log("getproducts", get.getall);
-      setallproducts(get.getall.slice(0, 3)); // Limit to 3 products
-    } catch (error) {
-      console.log(error);
-    }
+async function fetchProduct() {
+  try {
+    const get = await FetchProducts();
+    console.log("getproducts", get.getall);
+
+    // Define the required categories
+    const requiredCategories = [
+      "Municipal Castings",
+      "Water Distribution Equipment",
+      "Agricultural Castings",
+      "Counter Weights"
+    ];
+
+    // Create a map to store one product per required category
+    const uniqueProducts = new Map();
+
+    get.getall.forEach((product) => {
+      if (requiredCategories.includes(product.typeofproduct) && !uniqueProducts.has(product.typeofproduct)) {
+        uniqueProducts.set(product.typeofproduct, product);
+      }
+    });
+
+    // Convert map values to array and update state
+    setAllProducts(Array.from(uniqueProducts.values()));
+  } catch (error) {
+    console.log(error);
   }
+}
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
+useEffect(() => {
+  fetchProduct();
+}, []);
+
 
   return (
     <div className="min-h-[50vh] w-full py-10 px-4 bg-gray-50">
@@ -37,12 +57,12 @@ function HomeProducts() {
           >
             <img
               src={item.image} // Dynamic image from API
-              alt={item.name || `Product ${index + 1}`}
-              className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+              alt={item.title || `Product ${index + 1}`}
+              className="w-full h-64 object-contain transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <h2 className="text-lg font-bold">{item.name || "Product Name"}</h2>
+              <h2 className="text-lg font-bold">{item.title || "Product Name"}</h2>
             </div>
           </div>
         ))}

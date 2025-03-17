@@ -10,9 +10,11 @@ import PrideInspiration from "../components/PrideInspiration"
 import Testimonial from "../components/Testimonial"
 import VirtualTour from "../components/VirtualTour"
 import { useEffect, useState } from "react";
+import Getbackroundyear from "../services/Homepage/fetchyearbacround";
+import { Helmet } from "react-helmet-async";
 
 function Home() {
-    const [backgroundImage, setBackgroundImage] = useState("");
+    const [backgroundImageurl, setBackgroundImage] = useState("");
       const [loading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(true);
@@ -24,8 +26,13 @@ function Home() {
         hidden: { opacity: 0, x: -100 },
         visible: { opacity: 1, x: 0, transition: { duration: 1 } },
       };
-    
-      
+    async function getYearImage() {
+      const data = await Getbackroundyear()
+      setBackgroundImage(data.image)
+    }
+      useEffect(()=>{
+        getYearImage()
+      },[])
     
       const fadeRight = {
         hidden: { opacity: 0, x: 100 },
@@ -33,7 +40,23 @@ function Home() {
       };
     return (
         <div className="flex flex-col items-center ">
-
+<Helmet>
+      <title>Keith Ceramic - Leading Manufacturer of High-Quality Ceramic Products</title>
+      <meta
+        name="description"
+        content="Discover premium ceramic solutions from Keith Ceramic. We specialize in high-quality industrial ceramics, including power transmission insulators, agricultural castings, and more."
+      />
+      <meta
+        name="keywords"
+        content="Keith Ceramic, Kith ceramik, kath seramik, Industrial Ceramics, Ceramic Insulators, High Tension Power Transmission, Agricultural Castings, Foundry Castings, Engineering Ceramics, Electrical Insulation"
+      />
+      <meta name="robots" content="index, follow" />
+      <meta name="author" content="Keith Ceramic" />
+      <meta property="og:title" content="Keith Ceramic - Leading Manufacturer of High-Quality Ceramic Products" />
+      <meta property="og:description" content="Explore high-performance ceramic products for industrial and power applications. Trusted by industries worldwide." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.keithceramic.com" />
+    </Helmet>
        
             {/* <NavBar></NavBar> */}
             {/* Video Background Section */}
@@ -47,7 +70,7 @@ function Home() {
             <div
               className="w-screen h-[100vh] flex items-center justify-start"
               style={{
-                backgroundImage: "url('/assets/images/persons/KEITH CERAMIC TEAM-min.JPG')",
+                backgroundImage: `url(${backgroundImageurl})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -57,7 +80,8 @@ function Home() {
             <div
               className="w-screen h-[100vh] flex items-start justify-center"
               style={{
-                backgroundImage: "url('/assets/images/persons/KEITH CERAMIC TEAM-min.JPG')",
+                // backgroundImage: "url('/assets/images/persons/KEITH CERAMIC TEAM-min.JPG')",
+                backgroundImage: `url(${backgroundImageurl})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -86,15 +110,16 @@ function Home() {
           </div>
             {/* virutal tour */}
             <VirtualTour></VirtualTour>
+            {/*Awards */}
+            <HomeAwards></HomeAwards>
             {/*product  section*/}
             <HomeProducts></HomeProducts>
             
             {/*Our Pride our Inspiration */}
             <PrideInspiration></PrideInspiration>
-            {/*Awards */}
-            <HomeAwards></HomeAwards>
+            
             {/* testimonial */}
-            <Testimonial></Testimonial>
+            {/* <Testimonial></Testimonial> */}
             
             {/* <Footer></Footer> */}
             

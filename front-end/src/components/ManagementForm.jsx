@@ -19,25 +19,28 @@ function ManagementForm() {
   const [file, setfile] = useState(null);
   const [typesofproduct, settypesofproduct] = useState("Physical Testing");
 
-  const [position,setPosition]=useState()
+  const [position, setPosition] = useState("Founder")
   const [Description, SetDescription] = useState("");
   const [Name, setName] = useState("");
-  const [image,setImage]=useState()
-  const [allTeamMembers,setAllTeamMembers]=useState([])
+  const [image, setImage] = useState()
+  const [allTeamMembers, setAllTeamMembers] = useState([])
 
   const [isadd, setisadd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading1, setIsLoading1] = useState(false);
   const [editedFiles, setEditedFiles] = useState({});
-  const [isSaving,setIsSaving]=useState(false)
-  const [isDeleting,setIsDeleting]=useState(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(null)
+
+  // Track edited fields for each item
+  const [editedFields, setEditedFields] = useState({});
 
   //fetching management
   async function fetchManagement() {
     setIsLoading(true);
     try {
       const get = await FetchManagement();
-      console.log("management",get)
+      console.log("management", get)
       setAllTeamMembers(
         get.map((item) => ({
           ...item,
@@ -55,7 +58,7 @@ function ManagementForm() {
     if (newFile) {
       const reader = new FileReader();
       reader.onload = () => {
-        setallqualitydata((prev) =>
+        setAllTeamMembers((prev) =>
           prev.map((item) =>
             item._id === id ? { ...item, previewImage: reader.result } : item
           )
@@ -87,10 +90,69 @@ function ManagementForm() {
         progress: undefined,
         theme: "light",
         transition: Bounce,
-        });
-    //   fetchquality();
+      });
     } catch (error) {
       console.log("error", error);
+    }
+  };
+
+  const handleNameChange = (id, value) => {
+    // Update the UI state
+    setAllTeamMembers(prev =>
+      prev.map(item => 
+        item._id === id ? { ...item, name: value } : item
+      )
+    );
+    
+    // Track edited fields
+    setEditedFields(prev => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), name: value }
+    }));
+    
+    // Also update Name state if this is the currently editing item
+    if (EditId === id) {
+      setName(value);
+    }
+  };
+
+  const handleDescriptionChange = (id, value) => {
+    // Update the UI state
+    setAllTeamMembers(prev =>
+      prev.map(item => 
+        item._id === id ? { ...item, description: value } : item
+      )
+    );
+    
+    // Track edited fields
+    setEditedFields(prev => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), description: value }
+    }));
+    
+    // Also update Description state if this is the currently editing item
+    if (EditId === id) {
+      SetDescription(value);
+    }
+  };
+
+  const handlePositionChange = (id, value) => {
+    // Update the UI state
+    setAllTeamMembers(prev =>
+      prev.map(item => 
+        item._id === id ? { ...item, position: value } : item
+      )
+    );
+    
+    // Track edited fields
+    setEditedFields(prev => ({
+      ...prev,
+      [id]: { ...(prev[id] || {}), position: value }
+    }));
+    
+    // Also update position state if this is the currently editing item
+    if (EditId === id) {
+      setPosition(value);
     }
   };
 
@@ -98,14 +160,13 @@ function ManagementForm() {
     if (EditId === id) {
       const editedItem = allTeamMembers.find((item) => item._id === id);
       setIsSaving(true)
-      // Prepare the form data
+      
+      // Prepare the form data using the actual displayed values
       const formData = new FormData();
-      formData.append("name", Name || editedItem.name);
-      formData.append("description", Description || editedItem.description);
-      formData.append(
-        "position",
-        position || editedItem.position
-      );
+      formData.append("name", editedItem.name);
+      formData.append("description", editedItem.description);
+      formData.append("position", editedItem.position);
+      
       if (editedFiles[id]) {
         formData.append("image", editedFiles[id]); // Append the edited file if exists
       }
@@ -124,7 +185,8 @@ function ManagementForm() {
           progress: undefined,
           theme: "light",
           transition: Bounce,
-          });
+        });
+        
         // Re-fetch data to update UI
         fetchManagement();
 
@@ -132,14 +194,21 @@ function ManagementForm() {
         setEditId(null);
         setName("");
         SetDescription("");
+        setPosition("");
         setEditedFiles((prev) => {
           const newState = { ...prev };
           delete newState[id];
           return newState;
         });
-        setPosition("");
+        setEditedFields((prev) => {
+          const newState = { ...prev };
+          delete newState[id];
+          return newState;
+        });
       } catch (error) {
         console.error("Error updating item:", error);
+        setIsSaving(false);
+        toast.error('Failed to update. Please try again.');
       }
     } else {
       // Set the item for editing
@@ -147,7 +216,7 @@ function ManagementForm() {
       setEditId(id);
       setName(selectedItem.name);
       SetDescription(selectedItem.description);
-      settypesofproduct(selectedItem.typeofproduct);
+      setPosition(selectedItem.position);
 
       if (!editedFiles[id]) {
         setEditedFiles((prev) => ({
@@ -162,26 +231,14 @@ function ManagementForm() {
     setisadd(!isadd);
   };
 
-  const handleTypeChange = (e, id) => {
-    const newType = e.target.value;
-    setPosition(newType);
-
-    setAllTeamMembers((prev) =>
-      prev.map((item) =>
-        item._id === id ? { ...item, position: newType } : item
-      )
-    );
-  };
-
   //working
   async function HandleAddNew() {
     const formData = new FormData();
     formData.append("image", file);
     formData.append("name", Name);
     formData.append("description", Description);
-    // formData.append("typeofproduct", typesofproduct);
     formData.append("position", position);
-
+    console.log("heeiejrie", formData)
     setIsLoading1(true);
     try {
       const res = await ManagementPost(formData);
@@ -190,9 +247,21 @@ function ManagementForm() {
       setName("");
       SetDescription("");
       setfile(null);
-    //   fetchquality();
+      fetchManagement();
+      toast.success('Added successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     } catch (error) {
       console.log("error", error);
+      toast.error('Failed to add. Please try again.');
     } finally {
       setIsLoading1(false);
     }
@@ -200,7 +269,7 @@ function ManagementForm() {
 
   useEffect(() => {
     fetchManagement()
-    console.log("Team",allTeamMembers)
+    console.log("Team", allTeamMembers)
   }, []);
 
   return (
@@ -211,13 +280,13 @@ function ManagementForm() {
           Management
         </h1>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center min-h-[60vh]">
             <div className="animate-bounce">
               <ClipLoader size={50} color="#3490dc" loading={isLoading} />
             </div>
           </div>
-        ) : (.......div goes here.....)} */}
+        ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {allTeamMembers?.map((item) => (
               <div
@@ -260,25 +329,23 @@ function ManagementForm() {
                 <div className="p-6 space-y-4">
                   <input
                     type="text"
-                    value={EditId === item._id ? Name : item.name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={item.name}
+                    onChange={(e) => handleNameChange(item._id, e.target.value)}
                     readOnly={EditId !== item._id}
                     className="w-full p-2 border bg-white border-black rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                   />
 
                   <textarea
-                    value={EditId === item._id ? Description : item.description}
-                    onChange={(e) => SetDescription(e.target.value)}
+                    value={item.description}
+                    onChange={(e) => handleDescriptionChange(item._id, e.target.value)}
                     readOnly={EditId !== item._id}
                     className="w-full p-3 border bg-white border-black text-black rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                     rows={3}
                   />
 
                   <select
-                    value={
-                      EditId === item._id ? position : item.position
-                    }
-                    onChange={(e) => handleTypeChange(e, item._id)}
+                    value={item.position}
+                    onChange={(e) => handlePositionChange(item._id, e.target.value)}
                     disabled={EditId !== item._id}
                     className="w-full p-2 border bg-white border-black text-black rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                   >
@@ -295,11 +362,10 @@ function ManagementForm() {
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
                       {
-                        isDeleting===item._id?"Deleting...":"Delete"
-
+                        isDeleting === item._id ? "Deleting..." : "Delete"
                       }
                     </button>
-                    <button
+                    {/* <button
                       onClick={() => handleEdit(item._id)}
                       className={`flex items-center px-4 py-2 ${
                         EditId === item._id
@@ -311,7 +377,7 @@ function ManagementForm() {
                         <>
                           <Save className="w-4 h-4 mr-2" />
                           {
-                            isSaving?"Saving...":"Save"
+                            isSaving ? "Saving..." : "Save"
                           }
                         </>
                       ) : (
@@ -320,13 +386,13 @@ function ManagementForm() {
                           Edit
                         </>
                       )}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        
+        )}
 
         <div
           className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
@@ -340,8 +406,7 @@ function ManagementForm() {
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-800">Add New</h2>
-              <button
-                onClick={() => setisadd(false)}
+              <button onClick={() => setisadd(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-300"
               >
                 <X className="w-6 h-6" />
@@ -387,7 +452,6 @@ function ManagementForm() {
                 <option>Investor</option>
                 <option>Leader</option>
                 <option>Co-Founder</option>
-                
               </select>
 
               <button

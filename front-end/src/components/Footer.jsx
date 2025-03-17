@@ -50,7 +50,7 @@ function Footer() {
                     <ul className="space-y-2">
                     {[
                             {title:"About Us",url:"/about"}, 
-                            {title:"Teams",url:"/about"},
+                            // {title:"Teams",url:"/about"},
                             {title:"Infrastructure",url:"/infrastructure"},
                             {title:"Quality",url:"/quality"},
                             ].map((item) => (

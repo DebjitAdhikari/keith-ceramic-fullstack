@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import FetchProducts from "../services/ProductPage/FetchProducts";
 import { Helmet } from "react-helmet-async";
 
-function AgriculturalCastings() {
+function HighTension() {
   const [products,setProducts]=useState([])
   async function fetchallproducts(){
     try {
       const get = await FetchProducts()
       console.log("product",get.getall)
-      setProducts(get.getall.filter(item=>item.typeofproduct==="Agricultural Castings"))
+      setProducts(get.getall.filter(item=>item.typeofproduct==="High Tension Power Transmission"))
     } catch (err) {
       console.log(err)
     }
@@ -28,14 +28,20 @@ function AgriculturalCastings() {
   return (
     <div className="min-h-[60vh] w-full sm:py-6 px-2 py-2 sm:px-6 bg-gray-100">
       <Helmet>
-        <title>Agricultural Castings - High-Quality Farm Equipment Parts</title>
-        <meta name="description" content="Discover premium agricultural castings designed for durability and efficiency. Perfect for farm equipment, machinery, and industrial applications." />
-        <meta name="keywords" content="Agricultural Castings, Farm Equipment Parts, Durable Castings, Machinery Components, Industrial Castings" />
-      </Helmet>
+      <title>High Tension Power Transmission - Keith Ceramic</title>
+      <meta
+        name="description"
+        content="Explore our High Tension Power Transmission ceramic products, designed for durability and efficiency in electrical power systems."
+      />
+      <meta
+        name="keywords"
+        content="High Tension Power Transmission, Ceramic Insulators, Power Transmission Ceramics, Keith Ceramic, Electrical Insulation, High Voltage Components"
+      />
+    </Helmet>
       {/* Section Title */}
       <div className="text-left lg:ml-14 mb-10">
         <h1 className="text-lg md:text-2xl lg:text-4xl font-bold text-[#FD5D14] border-l-4 border-blue-700 pl-4 mb-6">
-        Agricultural Castings
+        High Tension Power Transmission
         </h1>
       </div>
 
@@ -61,4 +67,4 @@ function AgriculturalCastings() {
   );
 }
 
-export default AgriculturalCastings;
+export default HighTension;

@@ -75,7 +75,7 @@ export const Getallproucts=async(req,res)=>{
 export const EditProductById = async (req, res) => {
     try {
         const id = req.params.id;
-        const { description, title } = req.body;
+        const { description, title, category } = req.body;
 
         console.log("Editing Product ID:", id);
         console.log("Request Body:", req.body);
@@ -111,7 +111,7 @@ export const EditProductById = async (req, res) => {
         // Update the product
         const updatedProduct = await Product.findByIdAndUpdate(
             id,
-            { description, title, image: uploadedImage },
+            { description, title, image: uploadedImage,typeofproduct:category },
             { new: true } // Return the updated document
         );
 

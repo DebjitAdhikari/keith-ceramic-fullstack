@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import FetchProducts from "../services/ProductPage/FetchProducts";
+import { Helmet } from "react-helmet-async";
 
 function WaterDistributionEquipment() {
   const [products,setProducts]=useState([])
@@ -21,8 +22,16 @@ function WaterDistributionEquipment() {
   useEffect(()=>{
     fetchallproducts()
   },[])
+  useEffect(()=>{
+      window.scrollTo(0,0)
+    },[])
   return (
     <div className="min-h-[60vh] w-full sm:py-6 px-2 py-2 sm:px-6 bg-gray-100">
+      <Helmet>
+      <title>Water Distribution Equipment | Keith Ceramic</title>
+      <meta name="description" content="Discover premium water distribution equipment, including durable castings for pipelines, valves, and fittings for efficient water management." />
+      <meta name="keywords" content="Water Distribution Equipment, Pipeline Castings, Water Valves, Durable Fittings, Water Management Solutions, Keith Ceramic" />
+    </Helmet>
       {/* Section Title */}
       <div className="text-left lg:ml-14 mb-10">
         <h1 className="text-lg md:text-2xl lg:text-4xl font-bold text-[#FD5D14] border-l-4 border-blue-700 pl-4 mb-6">

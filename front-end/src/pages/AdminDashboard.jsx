@@ -7,6 +7,7 @@ import InfrastructureForm from "../forms/InfrastructureForm";
 import QualityForm from "../forms/QualityForm";
 
 import ManagementForm from "../components/ManagementForm";
+import ContactForm from "../forms/ContactForm";
 
 function AdminDashboard() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -86,7 +87,7 @@ function AdminDashboard() {
                 Products
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/admin/infrastructure"
                 className={`block py-2 px-4 rounded hover:bg-gray-700 ${
@@ -95,7 +96,7 @@ function AdminDashboard() {
               >
                 Infrastructure
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to="/admin/quality"
@@ -106,7 +107,7 @@ function AdminDashboard() {
                 Quality
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/admin/contact"
                 className={`block py-2 px-4 rounded hover:bg-gray-700 ${
@@ -115,7 +116,7 @@ function AdminDashboard() {
               >
                 Contact
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
 
@@ -166,7 +167,7 @@ function AdminDashboard() {
             <Route path="/infrastructure" element={<InfrastructureForm />} />
             <Route path="/management" element={<ManagementForm />} />
             <Route path="/quality" element={<QualityForm />} />
-            <Route path="/contact" element={<QualityForm />} />
+            {/* <Route path="/contact" element={<ContactForm />} /> */}
           </Routes>
         </main>
       </div>

@@ -381,13 +381,13 @@ function AboutForm() {
                     Principles & Core Values
                   </h3>
                 </div>
-                <button
+                {/* <button
                   onClick={() => setShowPrincipleModal(true)}
                   className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-2 bg-indigo-600 text-white text-xs sm:text-sm rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>Add Principle</span>
-                </button>
+                </button> */}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {principlesData.map((item) => (
@@ -405,7 +405,7 @@ function AboutForm() {
             </section>
 
             {/* Why Us Section */}
-            <section className="space-y-4">
+            {/* <section className="space-y-4">
               <div className="flex items-center justify-between border-b pb-2">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" />
@@ -506,7 +506,7 @@ function AboutForm() {
                   </div>
                 )}
               </form>
-            </section>
+            </section> */}
           </div>
         </div>
       </div>

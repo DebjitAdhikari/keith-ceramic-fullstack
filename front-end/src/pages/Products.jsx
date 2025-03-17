@@ -5,13 +5,25 @@ import MunicipalCastings from "./MunicipalCastings"
 import AgriculturalCastings from "./AgriculturalCastings"
 import MiscellaneousCastings from "./MiscellaneousCastings"
 import WaterDistributionEquipment from "./WaterDistributionEquipment"
+import { useEffect } from "react"
+import CounterWeights from "./CounterWeights"
+import HighTension from "./HighTension"
+import { Helmet } from "react-helmet-async"
 
 function Products() {
   const isRootPath = location.pathname === "/products";
+  useEffect(()=>{
+      window.scrollTo(0,0)
+    },[])
     return (
       <div
       className="w-full min-h-screen flex flex-col  items-center pt-[120px] lg:pt-[150px] py-10 text-gray-800 bg-gray-100"
       >
+        <Helmet>
+      <title>Our Products | Keith Ceramic</title>
+      <meta name="description" content="Explore our wide range of high-quality castings, including industrial, municipal, and agricultural products." />
+      <meta name="keywords" content="Castings, Industrial Products, Municipal Castings, Agricultural Castings, High-Quality Metal Products" />
+    </Helmet>
       {
         isRootPath &&
         <>
@@ -35,6 +47,8 @@ function Products() {
         <Route path="municipal-public-utility-castings" element={<MunicipalCastings />} />
         <Route path="agricultural-castings" element={<AgriculturalCastings />} />
         <Route path="miscellaneous-castings" element={<MiscellaneousCastings />} />
+        <Route path="counter-weights" element={<CounterWeights />} />
+        <Route path="high-tension-power-transmission" element={<HighTension />} />
         <Route path="water-distribution-equipment" element={<WaterDistributionEquipment />} />
       </Routes>
       {/* enquiry now */}

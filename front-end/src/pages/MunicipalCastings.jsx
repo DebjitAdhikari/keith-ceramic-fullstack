@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import FetchProducts from "../services/ProductPage/FetchProducts";
+import { Helmet } from "react-helmet-async";
 
 function MunicipalCastings() {
   // Example products data
@@ -45,8 +46,17 @@ function MunicipalCastings() {
   useEffect(()=>{
     fetchallproducts()
   },[])
+  useEffect(()=>{
+      window.scrollTo(0,0)
+    },[])
   return (
     <div className="min-h-[60vh] w-full sm:py-6 px-2 py-2 sm:px-6 bg-gray-100">
+      <Helmet>
+      <title>Municipal Castings | Keith Ceramic</title>
+      <meta name="description" content="Discover durable and high-quality municipal castings for urban infrastructure and public works." />
+      <meta name="keywords" content="Municipal Castings, Manhole Covers, Drain Grates, Urban Infrastructure" />
+    </Helmet>
+
       {/* Section Title */}
       <div className="text-left lg:ml-14 mb-10">
         <h1 className="text-lg md:text-2xl lg:text-4xl font-bold text-[#FD5D14] border-l-4 border-blue-700 pl-4 mb-6">

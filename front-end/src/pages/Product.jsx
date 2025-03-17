@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 function Product() {
   const [activeFAQs, setActiveFAQs] = useState([]);
@@ -35,6 +36,7 @@ function Product() {
 
   return (
     <div>
+      
       <div className="w-full bg-white h-auto md:min-h-[70vh] flex justify-center flex-col md:flex-row px-6 py-12 md:px-12 md:py-20">
         {/* Text Section */}
         <div className="w-full md:w-[50%] flex flex-col justify-center p-6 md:p-10 text-center md:text-left bg-white">
