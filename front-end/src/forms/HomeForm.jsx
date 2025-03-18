@@ -14,7 +14,7 @@ import FetchHeroSection from "../services/Homepage/FetchHeading";
 import PostHero from "../services/Homepage/PostHerosection";
 import Getbackroundyear from "../services/Homepage/fetchyearbacround";
 import postyearbackroundimage from "../services/Homepage/Postyearbackroundimage";
-import Gettourvidoe from "../services/Homepage/GetTourVIdeo";
+import Gettourvidoe from "../services/Homepage/GetTourVideo";
 import PostTourVideo from "../services/Homepage/postvideotour";
 import JoditEditor from "jodit-react";
 function HomeForm() {
